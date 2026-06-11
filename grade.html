@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>云上彝算 · 选择挑战</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('images/cursor.png') 0 0, auto;
+        }
+
+        body {
+            background: url('images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', system-ui, '华文楷书', 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.25);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .selector-card {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255, 254, 247, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 40px rgba(100, 50, 10, 0.3);
+            overflow: hidden;
+            text-align: center;
+            border: 1px solid #ffd89a;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            background: #8b2c1d;
+            background-image: radial-gradient(circle at 10% 30%, rgba(255,215,130,0.15) 2%, transparent 2.5%);
+            background-size: 28px 28px;
+            padding: 2rem 1.5rem;
+            color: #ffefcf;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            text-shadow: 2px 2px 0 #5a1e12;
+        }
+
+        .hero p {
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        .form-panel {
+            padding: 2rem 2rem 2.2rem;
+            background: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #743f2c;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        select {
+            width: 100%;
+            background: white;
+            border: 2px solid #e7c494;
+            padding: 12px 16px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #4a2c1c;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        select:focus {
+            border-color: #b45f2b;
+            box-shadow: 0 0 0 3px rgba(180, 95, 43, 0.2);
+        }
+
+        .start-btn {
+            background: #e7974c;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 60px;
+            margin-top: 1rem;
+            transition: 0.2s;
+            box-shadow: 0 5px 0 #9b521f;
+            font-family: inherit;
+        }
+
+        .start-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #9b521f;
+        }
+
+        .decoration {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #b88f66;
+            border-top: 1px solid #efddc5;
+            padding-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="selector-card">
+    <div class="hero">
+        <h1>🔥 云上彝算 🔥</h1>
+        <p>火把节的算术 · 纹样里的几何</p>
+    </div>
+    <div class="form-panel">
+        <div class="form-group">
+            <label>📚 选择年级</label>
+            <select id="gradeSelect">
+                <option value="1">一年级</option><option value="2">二年级</option><option value="3">三年级</option>
+                <option value="4">四年级</option><option value="5">五年级</option><option value="6">六年级</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>🏷️ 选择科目类别</label>
+            <select id="categorySelect">
+                <option value="arithmetic">📖 算数大闯关</option>
+                <option value="geometry">📐 图形趣探索</option>
+            </select>
+        </div>
+        <button class="start-btn" id="startBtn">✨ 开始刷题 ✨</button>
+        <div class="decoration">🪶 彝家智慧 · 数形结合 🪶</div>
+    </div>
+</div>
+
+<script>
+    // 背景音乐自动播放（音量0.8）
+    let bgAudio = null;
+    function initBackgroundMusic() {
+        bgAudio = new Audio('audio/background.mp3');
+        bgAudio.loop = true;
+        bgAudio.volume = 0.8;
+        bgAudio.play().catch(e => {
+            const playOnClick = () => {
+                bgAudio.play().catch(err => console.log("音乐播放失败"));
+                document.body.removeEventListener('click', playOnClick);
+            };
+            document.body.addEventListener('click', playOnClick);
+        });
+    }
+    initBackgroundMusic();
+
+    const startBtn = document.getElementById('startBtn');
+    const gradeSelect = document.getElementById('gradeSelect');
+    const categorySelect = document.getElementById('categorySelect');
+
+    startBtn.addEventListener('click', () => {
+        const grade = gradeSelect.value;
+        const category = categorySelect.value;
+        window.location.href = `quiz.html?grade=${grade}&category=${category}`;
+    });
+</script>
+</body>
+</html>
