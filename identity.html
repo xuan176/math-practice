@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>云上彝算 · 身份选择</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('images/cursor.png') 0 0, auto;
+        }
+
+        body {
+            background: url('images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', system-ui, '华文楷书', 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .identity-card {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 254, 247, 0.94);
+            backdrop-filter: blur(4px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 40px rgba(100, 50, 10, 0.3);
+            overflow: hidden;
+            border: 1px solid #ffd89a;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #8b2c1d;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .sub {
+            color: #b45a2c;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            border-bottom: 1px dashed #e7c494;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        .identity-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .identity-btn {
+            background: #fdf3e2;
+            border: 2px solid #e7c494;
+            border-radius: 60px;
+            padding: 1rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #743f2c;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            backdrop-filter: blur(2px);
+        }
+
+        .identity-btn:hover {
+            background: #ffedd5;
+            border-color: #d9894a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #b88f66;
+            border-top: 1px solid #eedbba;
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="identity-card">
+    <div class="hero-icon">🎓🔥</div>
+    <h1>云上彝算</h1>
+    <div class="sub">请选择您的身份</div>
+    <div class="identity-buttons">
+        <button class="identity-btn" id="studentBtn">🧑‍🎓 我是学生</button>
+        <button class="identity-btn" id="teacherBtn">👩‍🏫 我是老师</button>
+        <button class="identity-btn" id="parentBtn">👨‍👩‍👧 我是家长</button>
+    </div>
+    <div class="footer-note">🪶 彝家智慧 · 数形结合 🪶</div>
+</div>
+
+<script>
+    // 背景音乐控制（自动播放，音量0.8）
+    let bgAudio = null;
+    function initBackgroundMusic() {
+        bgAudio = new Audio('audio/background.mp3');
+        bgAudio.loop = true;
+        bgAudio.volume = 0.8;
+        bgAudio.play().catch(e => {
+            // 自动播放被阻止，等待用户首次点击时播放
+            const playOnClick = () => {
+                bgAudio.play().catch(err => console.log("音乐播放失败"));
+                document.body.removeEventListener('click', playOnClick);
+            };
+            document.body.addEventListener('click', playOnClick);
+        });
+    }
+    initBackgroundMusic();
+
+    document.getElementById('studentBtn').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+    document.getElementById('teacherBtn').addEventListener('click', () => {
+        alert('👩‍🏫 老师专属功能即将开放，敬请期待！');
+    });
+    document.getElementById('parentBtn').addEventListener('click', () => {
+        alert('👨‍👩‍👧 家长专属功能即将开放，敬请期待！');
+    });
+</script>
+</body>
+</html>
